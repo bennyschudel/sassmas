@@ -8,8 +8,8 @@
   width: 100px;
   border-radius: 50%;
   position: fixed;
-  left: random(200)400px;
-  top: random(40)40px; }
+  left: 400px;
+  top: 40px; }
   #moon:after {
     background-color: #142d37;
     height: 110px;

@@ -1,0 +1,110 @@
+<html>
+<head>
+	<title>sassmas</title>
+	<link href="css/screen.css" rel="stylesheet" type="text/css"/>
+	<script src="js/vendor/jquery.min.js" type="text/javascript"></script>
+	<script src="js/vendor/lodash.min.js" type="text/javascript"></script>
+</head>
+<body>
+
+<script id="tree_template" type="text/html">
+	<div class="tree tree--<%= variation %>">
+		<% _.each(_.range(total_stories), function(i) { %>
+			<div class="story"></div>
+		<% }); %>
+		<div class="trunk"></div>
+	</div>
+</script>
+
+<script id="snow_template" type="text/html">
+	<div class="snow snow--<%= variation %>" style="top:<%= top %>;left:<%= left %>"></div>
+</script>
+
+<script id="santa_template" type="text/html">
+	<div class="santa">
+		<div class="bag"></div>
+		<div class="body">
+			<div class="leg first">
+				<div class="boot"></div>
+			</div>
+			<div class="leg second">
+				<div class="boot"></div>
+			</div>
+			<div class="coat">
+				<div class="knot"></div>
+				<div class="knot"></div>
+				<div class="knot"></div>
+				<div class="belt"></div>
+				<div class="arm"></div>
+			</div>
+			<div class="cap"></div>
+			<div class="head">
+				<div class="eye"></div>
+				<div class="beard"></div>
+			</div>
+		</div>
+	</div>
+</script>
+
+<div id="moon"></div>
+<div id="forrest"></div>
+<div id="snowfall"></div>
+<div id="santa"></div>
+<div id="bottom"></div>
+
+<script>
+	function draw_forrest(el, count) {
+		if (!count) { count = 8; }
+
+		var $el = $(el);
+		var template = _.template( $('#tree_template').html() );
+
+		for (var i = 0; i < count; i++) {
+			var obj = {
+				'total_stories' : _.random(3, 5),
+				'variation' : _.random(1, 8)
+			};
+			var $tree = $( template(obj) );
+
+			$el.append( $tree.clone() );
+		}
+	}
+
+	function draw_snowfall(el, count) {
+		if (!count) { count = 100; }
+
+		var $el = $(el);
+		var template = _.template( $('#snow_template').html() );
+		var flakes = [];
+
+		$el.empty();
+
+		for (var i = 0; i < count; i++) {
+			var obj = {
+				'variation' : _.random(1, 4),
+				'top'  : _.random(0, 100)+'%',
+				'left' : _.random(0, 100)+'%'
+			};
+
+			flakes.push( template(obj) );
+		}
+
+		$el.html( flakes.join('') );
+	}
+
+	function draw_santa(el) {
+		var $el = $(el);
+		var template = _.template( $('#santa_template').html() );
+		var obj = {};
+		var $santa = $( template(obj) );
+
+		$el.append( $santa.clone() );
+	}
+
+	draw_snowfall('#snowfall', 500);
+	draw_forrest('#forrest', 6);
+	draw_santa('#santa');
+</script>
+
+</body>
+</html>

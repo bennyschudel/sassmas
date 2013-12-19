@@ -1,0 +1,27 @@
+@mixin moon(
+	$color    : white,
+	$fg_color : blue,
+	$width    : 200px,
+	$offset   : 20px,
+	$scalar   : 1.1
+) {
+	@include circle(
+		$color  : $color,
+		$width  : $width,
+		$height : $width
+	);
+
+	&:after {
+		@include circle(
+			$color  : $fg_color,
+			$width  : $width * $scalar,
+			$height : $width * $scalar
+		);
+
+		content : "";
+
+		position : absolute;
+		right    : $offset;
+		bottom   : $offset;
+	}
+}

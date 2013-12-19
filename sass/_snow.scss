@@ -1,0 +1,14 @@
+@mixin snow(
+	$color     : white,
+	$font-size : 20px
+) {
+	position : absolute;
+	display  : inline-block;
+
+	&:after {
+		content : "✴";
+
+		font-size : $font-size;
+		color     : $color;
+	}
+}

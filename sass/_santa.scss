@@ -1,0 +1,253 @@
+@mixin santa(
+	$body_color : red,
+	$skin_color : #FFC794,
+
+	$hem_color : white,
+	$eye_color : black,
+	$beard_color : white,
+	$belt_color : black,
+	$belt_buckle_color : yellow,
+	$knot_color : yellow,
+	$boot_color : black,
+	$bag_color : #FFD195,
+
+	$head_height : 100px,
+	$head_width : 65px,
+	$eye_width : 14px,
+	$eye_height : 20px,
+	$cap_width : 110px,
+	$cap_height : 115px,
+	$beard_height : 90px,
+	$beard_width : 60px,
+	$coat_height : 300px,
+	$coat_width : 160px,
+	$arm_width : 40px,
+	$arm_height : 80px,
+	$hand_height : 30px,
+	$belt_height : 20px,
+	$belt_buckle_width : 40px,
+	$leg_width : 40px,
+	$leg_height : 105px,
+	$boot_width : 50px,
+	$boot_height : 70px,
+	$boot_cap_width : 30px,
+	$boot_cap_height : 30px,
+	$bag_width : 160px,
+	$bag_height : 240px,
+
+	$hem_width : 15px,
+	$beard_left : -10px,
+	$beard_top : 45px,
+	$eye_left : 8px,
+	$eye_top : 15px,
+	$belt_top : 195px,
+	$belt_buckle_left : 10px,
+	$belt_buckle_border_width : 5px,
+	$knot_distance : 25px,
+	$knot_diameter : 12px,
+	$tassel_bottom : -40px,
+	$tassel_diameter : 20px,
+	$leg_first_left : 30px,
+	$leg_second_left : 100px
+) {
+	.body {
+		.head {
+			@include rect(
+				$color : $skin_color,
+				$width : $head_width,
+				$height : $head_height,
+				$border_radius : 0 ($head_width / 2) ($head_width / 4) 0
+			);
+
+			position : absolute;
+			top : -($head_height / 2);
+			left : -($head_width / 2);
+			border-style : solid;
+			border-width : $hem_width $hem_width 0 0;
+			border-color : $hem_color;
+		}
+		.eye {
+			@include circle(
+				$color  : $eye_color,
+				$width  : $eye_width,
+				$height : $eye_height
+			);
+
+			position : absolute;
+			top : $eye_top;
+			left: $eye_left;
+		}
+		.beard {
+			@include rect(
+				$color  : $beard_color,
+				$width  : $beard_width,
+				$height : $beard_height,
+				$border_radius : ($beard_width / 2) 0 ($beard_width / 2) 0
+			);
+
+			position : absolute;
+			top : $beard_top;
+			left : $beard_left
+		}
+
+		.cap {
+			@include rect(
+				$color : $body_color,
+				$width : $cap_width,
+				$height : $cap_height,
+				$border_radius : 0 ($cap_width / 2) 0 0
+			);
+
+			position : absolute;
+			top : -($cap_height - ($head_height / 2));
+			left : -($head_width / 2);
+
+			&:after {
+				@include circle(
+					$color : $hem_color,
+					$width : $tassel_diameter
+				);
+
+				content : "";
+				position : absolute;
+				right : -($tassel_diameter / 4);
+				bottom : $tassel_bottom;
+			}
+		}
+
+		.coat {
+			@include rect(
+				$color  : $body_color,
+				$width  : $coat_width,
+				$height : $coat_height,
+				$border_radius : 0 ($coat_width / 4) 0 ($coat_width / 4)
+			);
+
+			position : absolute;
+			top : 0;
+			left : 0;
+			border-bottom : $hem_width solid $hem_color;
+		}
+		.knot {
+			$knot_offset : $beard_height + 15px;
+
+			@include circle(
+				$color : $knot_color,
+				$width : $knot_diameter
+			);
+
+			position : absolute;
+			top : $knot_offset;
+			left : $belt_buckle_left + (($belt_buckle_width - $knot_diameter) / 2);
+
+			@for $i from 0 to 3 {
+				&:nth-child(#{$i}) {
+					top : $knot_offset + ($i * $knot_distance);
+				}
+			}
+		}
+		.belt {
+			background-color : $belt_color;
+			position : absolute;
+			top : $belt_top;
+			left : 0;
+			right : 0;
+			height : $belt_height;
+
+				// belt buckle
+			&:after {
+				content : "";
+				position : absolute;
+				top : -($belt_buckle_border_width);
+				left : $belt_buckle_left;
+				width : $belt_buckle_width;
+				height : $belt_height + (2 * $belt_buckle_border_width);
+				border : $belt_buckle_border_width solid $belt_buckle_color;
+			}
+		}
+		.arm {
+			width : $arm_width;
+			height : $arm_height;
+			background-color: $body_color;
+			top : $belt_top - ($hand_height + $hem_width);
+			left : 50px;
+			position : absolute;
+			border-bottom : $hem_width solid $hem_color;
+
+			&:after {
+				@include circle(
+					$color : $skin_color,
+					$width : $arm_width - 10px,
+					$height : $hand_height,
+					$border_radius : 0 0 50% 50%
+				);
+
+				content : "";
+				position : absolute;
+				bottom : -($hand_height + $hem_width);
+				left : 5px;
+			}
+		}
+
+		.leg {
+			background-color : $body_color;
+			width : $leg_width;
+			height : $leg_height;
+
+			position : absolute;
+			left : $leg_first_left;
+			top : ($coat_height - $hem_width);
+
+			&.second {
+				left : $leg_second_left;
+			}
+		}
+		.boot {
+			width : $boot_width;
+			height : $boot_height;
+			background-color : $boot_color;
+
+			position : absolute;
+			left : -(($boot_width - $leg_width) / 2);
+			bottom : 0;
+			border-top : $hem_width solid $hem_color;
+
+			&:after {
+				@include rect(
+					$color : $boot_color,
+					$width : $boot_cap_width,
+					$height : $boot_cap_height,
+					$border_radius : $boot_cap_height 0 0 ($boot_cap_height / 2)
+				);
+
+				content : "";
+				position : absolute;
+				bottom : 0;
+				left : -($boot_cap_width);
+			}
+		}
+	}
+	.bag {
+		@include rect(
+			$color : $bag_color,
+			$width : $bag_width,
+			$height : $bag_height,
+			$border_radius : 0 ($bag_width) 0 ($bag_width / 2)
+		);
+
+		position : absolute;
+		left : $coat_width;
+		top : 0;
+
+			// fix for bag on the shoulder
+		&:after {
+			content : "";
+			background-color : $bag_color;
+			width : 100px;
+			height : 100px;
+			position : absolute;
+			top : 0;
+			left : -100px;
+		}
+	}
+}
